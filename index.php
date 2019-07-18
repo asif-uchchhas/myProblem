@@ -27,8 +27,7 @@ $msg= '';
   </head>
 
   <body>
-
-    <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
+     <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
         <div class="container">
             <a class="navbar-brand" href="/">Logo</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -69,61 +68,47 @@ $msg= '';
     </nav>
 
     <main role="main" class="container">
-
-    	     <div class="col-lg-12">
-                                <div class="card-box">
-                                    <h4 class="header-title m-t-0" style="text-align:center;color: #5572c8; font-size: 20px; padding: 10px;">New Product Order Entry</h4>
-										<span style="margin-top:15px;"><?php echo $msg ;?></span>
-                                    <form role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-									 
-                                                      <h4 class="inner-tittle">Order Item :</h4>
-			
-                                              <table class="table table-border" id="dynamic_field1">  
-                                                    <tr> 
-                                                    
-		<?php 
+	<div class="col-lg-12">
+            <div class="card-box">
+                <h4 class="header-title m-t-0" style="text-align:center;color: #5572c8; font-size: 20px; padding: 10px;">New Product Order Entry</h4>
+		    <span style="margin-top:15px;"><?php echo $msg ;?></span>
+                       <form role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+			   <h4 class="inner-tittle">Order Item :</h4>
+		              <table class="table table-border" id="dynamic_field1">  
+                          <tr> 
+                    <?php 
 			$sql="select container_name FROM arrival_container ORDER BY id DESC";
-			$result = $mysqli->query($sql);
-		 ?>
-
- <td><select class="form-control" data-style="btn-light" name="container_name[]"  id="container">
-    <optgroup label="Container Name">
-	<option value="">Select container</option>
-
-			<?php 
-
-			if ($result->num_rows > 0) {
-
-			while ($row = $result->fetch_assoc()) 
-
+			  $result = $mysqli->query($sql)
+		       ?>
+            <td>
+	       <select class="form-control" data-style="btn-light" name="container_name[]"  id="container">
+                  <optgroup label="Container Name">
+	               <option value="">Select container</option>
+		<?php 
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) 
 			//$container_name = $row['container_name'];
-
 	{  
 	       echo '<option value="'.$row['container_name'].'">'.$row['container_name'].'</option>';
 
 	       } 
-
-							}
-	     else  	{
+                else  	{
 		    echo '<option value="">Container not available</option>';
 		}
 
 		?>
 	    </optgroup>
 	</select>
-
-    </td>  
-    <td>
-
-	<select class="form-control" data-style="btn-light" name="supplier_name[]" id= "supplier">
-	    <optgroup label="Supplier Name">
-		<option value="">Select container first</option>
-
-	    </optgroup>
+      </td>  
+          
+	   <td>
+	       <select class="form-control" data-style="btn-light" name="supplier_name[]" id= "supplier">
+	          <optgroup label="Supplier Name">
+		     <option value="">Select container first</option>
+               </optgroup>
 	</select>
-
-	</td>  
-		 <td>
+      </td>  
+	       <td>
 		   <select class="form-control" data-style="btn-light" name="product_name[]" id="product">
 		    <optgroup label="Product Name">
 		      <option value="">Select supplier first</option>
