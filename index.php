@@ -190,12 +190,59 @@ $(document).ready(function(){
         }
     });
     
-    
- var j=1;  
+var j=1;  
       $('#add1').click(function(){  
            j++;  
-           $('#dynamic_field1').append('<tr id="row1'+j+'"><td><?php $sql="select container_name FROM arrival_container ORDER BY id DESC";$result = $mysqli->query($sql);?><select class="form-control" data-style="btn-light" name="container_name[]"  id="container"><optgroup label="Container Name"><option value="">Select container</option><?php if($result->num_rows > 0){while ($row = $result->fetch_assoc()){ echo '<option value="'.$row['container_name'].'">'.$row['container_name'].'</option>';}}else{echo'<option value="">Container not available</option>';}?></optgroup></select></td><td><select class="form-control"data-style="btn-light" name="supplier_name[]" id="supplier"><optgroup label="Supplier Name"><option value="">Select container first</option></optgroup></select></td><td><select class="form-control" data-style="btn-light" name="product_name []"id="product"><optgroup label="Product Name"><option value="">Select supplier first</option></optgroup></select></td><td><input type="text" name="quantity[]" placeholder="Quantity" class="form-control" /></td><td><input type="text" name="unit_price[]" placeholder="Unit Price" class="form-control" /></td><td><input type="text" name="comments[]" placeholder="Comments" class="form-control" /></td><td><input type="hidden" name="order_id[]"value="<?php echo"$order_uidd";?>"placeholder="Enter taking time" class="form-control name_list"  /></td><td><button type="button" name="remove" id="'+j+'" class="btn btn-danger btn_remove1">X</button></td></tr>');  });  
-      $(document).on('click', '.btn_remove1', function(){  
+           `$('#dynamic_field1').append('<tr id="row1'+j+'"><td><?php $sql="select container_name FROM arrival_container ORDER BY id DESC";$result = $mysqli->query($sql);?><select class="form-control container" data-style="btn-light" name="container_name[]"  id="container1"><optgroup label="Container Name"><option value="">Select container</option><?php if($result->num_rows > 0){while ($row = $result->fetch_assoc()){ echo '<option value="'.$row['container_name'].'">'.$row['container_name'].'</option>';}}else{echo'<option value="">Container not available</option>';}?></optgroup>`</select></td><td><select class="form-control"data-style="btn-light" name="supplier_name[]" id="supplier1"><optgroup label="Supplier Name"><option value="">Select container first</option></optgroup></select></td><td><select class="form-control" data-style="btn-light" name="product_name []"id="product1"><optgroup label="Product Name"><option value="">Select supplier first</option></optgroup></select></td><td><input type="text" name="quantity[]" placeholder="Quantity" class="form-control" /></td><td><input type="text" name="unit_price[]" placeholder="Unit Price" class="form-control" /></td><td><input type="text" name="comments[]" placeholder="Comments" class="form-control" /></td><td><input type="hidden" name="order_id[]"value="<?php echo"$order_uidd";?>"placeholder="Enter taking time" class="form-control name_list"  /></td><td><button type="button" name="remove" id="'+j+'" class="btn btn-danger btn_remove1">X</button></td></tr>'); 
+
+
+
+
+$( "#container1" ).on( "change", function() {
+            var container_Name = $(this).val();
+    if(container_Name){
+        $.ajax({
+            type:'POST',
+            url:'ajaxData.php',
+            data:'container_name='+container_Name,
+            success:function(html){
+                $('#supplier1').html(html);
+                $('#product1').html('<option value="">Select supplier first</option>'); 
+            }
+        }); 
+    }else{
+        $('#supplier1').html('<option value="">Select container first</option>');
+        $('#product1').html('<option value="">Select supplier first</option>'); 
+    }
+
+});
+
+
+
+
+    $( "#supplier1" ).on( "change", function() {
+            var supplier_Name = $(this).val();
+            if(supplier_Name){
+                $.ajax({
+                    type:'POST',
+                    url:'ajaxData.php',
+                    data:'supplier_name='+supplier_Name,
+                    success:function(html){
+                        $('#product1').html(html);
+                    }
+                }); 
+            }else{
+                $('#product1').html('<option value="">Select supplier first</option>'); 
+            }
+        });
+
+
+
+});
+
+
+
+    $(document).on('click', '.btn_remove1', function(){  
            var button_id = $(this).attr("id");   
            $('#row1'+button_id+'').remove();  
       });  
@@ -211,10 +258,9 @@ $(document).ready(function(){
                 }  
            });  
       }); 
-    
+
 });
 </script>
-
 
     </main><!-- /.container -->
 
